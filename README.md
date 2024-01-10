@@ -10,5 +10,7 @@ Whether it's lecture notes, study materials, or event information, this platform
 # **FEATURES**
 
 **User Authentication**: Secure user registration and login functionality to ensure a personalized and protected experience.
+
 **Resource Upload and Download:** Users can easily upload and download various resources, fostering a collaborative learning environment
+
 **User Profiles**: Personalized user profiles that showcase uploaded resources and contributions.

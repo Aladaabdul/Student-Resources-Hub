@@ -17,7 +17,7 @@ class Department(models.Model):
 
 class Course(models.Model):
     name = models.IntegerField()
-    course_code = models.TextField()
+    course_code = models.CharField(max_length=255)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
 class Resource(models.Model):

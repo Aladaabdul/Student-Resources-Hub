@@ -47,4 +47,4 @@ class ResourceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Resource
-        fields = ['']
+        fields = ['title', 'description', 'file', 'department', 'course', 'uploaded_by', 'uploaded_at']

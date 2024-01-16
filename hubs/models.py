@@ -42,6 +42,9 @@ class Course(models.Model):
     course_code = models.CharField(max_length=10)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 class Resource(models.Model):
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)

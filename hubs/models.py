@@ -51,7 +51,7 @@ class Resource(models.Model):
     file = models.FileField(upload_to='hubs/files')
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
-    uploaded_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
+    uploaded_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     uploaded_at = models.DateField(auto_now_add=True)
 
 

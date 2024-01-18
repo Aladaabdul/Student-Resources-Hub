@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from hubs.models import UserProfile, Department, Course, Resource
+from hubs.models import UserProfile, Department, Course, Resource, Comment
 
 class UserProfileSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField()
@@ -48,3 +48,10 @@ class ResourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Resource
         fields = ['id', 'title', 'description', 'file', 'department', 'course', 'uploaded_by', 'uploaded_at']
+
+
+class CommentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = ['comment', 'resource', 'commented_by', 'commented_at']

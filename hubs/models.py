@@ -54,6 +54,9 @@ class Resource(models.Model):
     uploaded_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     uploaded_at = models.DateField(auto_now_add=True)
 
+    def __str__(self):
+        return self.title
+
 
 class Comment(models.Model):
     comment = models.TextField()

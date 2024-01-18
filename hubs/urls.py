@@ -9,4 +9,7 @@ router.register('course', views.CourseViewSet)
 router.register('resources', views.ResourceViewSet)
 
 
-urlpatterns = router.urls
+resources_router = routers.NestedDefaultRouter(router, 'resources', lookup='resources')
+resources_router.register('comment', views.CommentViewSet, basename='resource-comments')
+
+urlpatterns = router.urls + resources_router.urls

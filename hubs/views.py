@@ -4,6 +4,7 @@ from .serializers import UserProfileSerializer, DepartmentSerializer, CourseSeri
 from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
+from .pagination import DefaultPagination
 
 # Create your views here.
 
@@ -20,12 +21,17 @@ class DepartmentViewSet(ModelViewSet):
 class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    pagination_class = DefaultPagination
     filter_backends = [DjangoFilterBackend, SearchFilter]
     search_fields = ['name']
+
 
 class ResourceViewSet(ModelViewSet):
     queryset = Resource.objects.all()
     serializer_class = ResourceSerializer
+    pagination_class = DefaultPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    search_fields = ['title']
 
 class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.all()

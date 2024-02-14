@@ -5,12 +5,14 @@ from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from .pagination import DefaultPagination
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 
 # Create your views here.
 
 class UserProfileViewSet(ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
+    permission_classes = [IsAdminUser]
 
 
 class DepartmentViewSet(ModelViewSet):
@@ -32,6 +34,11 @@ class ResourceViewSet(ModelViewSet):
     pagination_class = DefaultPagination
     filter_backends = [DjangoFilterBackend, SearchFilter]
     search_fields = ['title']
+
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
 class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.all()

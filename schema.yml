@@ -1,0 +1,1704 @@
+openapi: 3.0.3
+info:
+  title: SR HUB API
+  version: 1.0.0
+  description: STUDENT RESOURCES HUB API
+paths:
+  /auth/jwt/create/:
+    post:
+      operationId: auth_jwt_create_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /auth/jwt/refresh/:
+    post:
+      operationId: auth_jwt_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /auth/jwt/verify/:
+    post:
+      operationId: auth_jwt_verify_create
+      description: |-
+        Takes a token and indicates if it is valid.  This view provides no
+        information about a token's fitness for a particular use.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenVerify'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenVerify'
+          description: ''
+  /auth/users/:
+    get:
+      operationId: auth_users_list
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+          description: ''
+    post:
+      operationId: auth_users_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreate'
+          description: ''
+  /auth/users/{id}/:
+    get:
+      operationId: auth_users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: auth_users_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: auth_users_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: auth_users_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /auth/users/activation/:
+    post:
+      operationId: auth_users_activation_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Activation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Activation'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activation'
+          description: ''
+  /auth/users/me/:
+    get:
+      operationId: auth_users_me_retrieve
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: auth_users_me_update
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: auth_users_me_partial_update
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: auth_users_me_destroy
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /auth/users/resend_activation/:
+    post:
+      operationId: auth_users_resend_activation_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+  /auth/users/reset_password/:
+    post:
+      operationId: auth_users_reset_password_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+  /auth/users/reset_password_confirm/:
+    post:
+      operationId: auth_users_reset_password_confirm_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordResetConfirm'
+          description: ''
+  /auth/users/reset_username/:
+    post:
+      operationId: auth_users_reset_username_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+  /auth/users/reset_username_confirm/:
+    post:
+      operationId: auth_users_reset_username_confirm_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsernameResetConfirm'
+          description: ''
+  /auth/users/set_password/:
+    post:
+      operationId: auth_users_set_password_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetPassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SetPassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SetPassword'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetPassword'
+          description: ''
+  /auth/users/set_username/:
+    post:
+      operationId: auth_users_set_username_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetUsername'
+          description: ''
+  /hubs/course/:
+    get:
+      operationId: hubs_course_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCourseList'
+          description: ''
+    post:
+      operationId: hubs_course_create
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Course'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+  /hubs/course/{id}/:
+    get:
+      operationId: hubs_course_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this course.
+        required: true
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+    put:
+      operationId: hubs_course_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this course.
+        required: true
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Course'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+    patch:
+      operationId: hubs_course_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this course.
+        required: true
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+    delete:
+      operationId: hubs_course_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this course.
+        required: true
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /hubs/department/:
+    get:
+      operationId: hubs_department_list
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Department'
+          description: ''
+    post:
+      operationId: hubs_department_create
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Department'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Department'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Department'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
+  /hubs/department/{id}/:
+    get:
+      operationId: hubs_department_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this department.
+        required: true
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
+    put:
+      operationId: hubs_department_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this department.
+        required: true
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Department'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Department'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Department'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
+    patch:
+      operationId: hubs_department_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this department.
+        required: true
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedDepartment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedDepartment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedDepartment'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
+    delete:
+      operationId: hubs_department_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this department.
+        required: true
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /hubs/resources/:
+    get:
+      operationId: hubs_resources_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedResourceList'
+          description: ''
+    post:
+      operationId: hubs_resources_create
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Resource'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Resource'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Resource'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+          description: ''
+  /hubs/resources/{id}/:
+    get:
+      operationId: hubs_resources_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this resource.
+        required: true
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+          description: ''
+    put:
+      operationId: hubs_resources_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this resource.
+        required: true
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Resource'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Resource'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Resource'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+          description: ''
+    patch:
+      operationId: hubs_resources_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this resource.
+        required: true
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedResource'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedResource'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedResource'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+          description: ''
+    delete:
+      operationId: hubs_resources_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this resource.
+        required: true
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /hubs/resources/{resources_pk}/comment/:
+    get:
+      operationId: hubs_resources_comment_list
+      parameters:
+      - in: path
+        name: resources_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+          description: ''
+    post:
+      operationId: hubs_resources_comment_create
+      parameters:
+      - in: path
+        name: resources_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+  /hubs/resources/{resources_pk}/comment/{id}/:
+    get:
+      operationId: hubs_resources_comment_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this comment.
+        required: true
+      - in: path
+        name: resources_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+    put:
+      operationId: hubs_resources_comment_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this comment.
+        required: true
+      - in: path
+        name: resources_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+    patch:
+      operationId: hubs_resources_comment_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this comment.
+        required: true
+      - in: path
+        name: resources_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedComment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedComment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedComment'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+    delete:
+      operationId: hubs_resources_comment_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this comment.
+        required: true
+      - in: path
+        name: resources_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /hubs/users/:
+    get:
+      operationId: hubs_users_list
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserProfile'
+          description: ''
+    post:
+      operationId: hubs_users_create
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+  /hubs/users/{id}/:
+    get:
+      operationId: hubs_users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user profile.
+        required: true
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+    put:
+      operationId: hubs_users_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user profile.
+        required: true
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+    patch:
+      operationId: hubs_users_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user profile.
+        required: true
+      tags:
+      - hubs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserProfile'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+    delete:
+      operationId: hubs_users_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user profile.
+        required: true
+      tags:
+      - hubs
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Activation:
+      type: object
+      properties:
+        uid:
+          type: string
+        token:
+          type: string
+      required:
+      - token
+      - uid
+    Comment:
+      type: object
+      properties:
+        comment:
+          type: string
+        resource:
+          type: integer
+        commented_by:
+          type: integer
+        commented_at:
+          type: string
+          format: date
+          readOnly: true
+      required:
+      - comment
+      - commented_at
+      - commented_by
+      - resource
+    Course:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        course_code:
+          type: string
+          maxLength: 10
+        department:
+          $ref: '#/components/schemas/Department'
+      required:
+      - course_code
+      - department
+      - id
+      - name
+    Department:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+          maxLength: 255
+      required:
+      - id
+      - name
+    PaginatedCourseList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Course'
+    PaginatedResourceList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+    PasswordResetConfirm:
+      type: object
+      properties:
+        uid:
+          type: string
+        token:
+          type: string
+        new_password:
+          type: string
+      required:
+      - new_password
+      - token
+      - uid
+    PatchedComment:
+      type: object
+      properties:
+        comment:
+          type: string
+        resource:
+          type: integer
+        commented_by:
+          type: integer
+        commented_at:
+          type: string
+          format: date
+          readOnly: true
+    PatchedCourse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        course_code:
+          type: string
+          maxLength: 10
+        department:
+          $ref: '#/components/schemas/Department'
+    PatchedDepartment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+          maxLength: 255
+    PatchedResource:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+          maxLength: 255
+        file:
+          type: string
+          format: uri
+        department:
+          type: integer
+          nullable: true
+        course:
+          type: integer
+          nullable: true
+        uploaded_by:
+          type: integer
+        uploaded_at:
+          type: string
+          format: date
+          readOnly: true
+    PatchedUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+    PatchedUserProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+        user_name:
+          type: string
+          maxLength: 255
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+    Resource:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+          maxLength: 255
+        file:
+          type: string
+          format: uri
+        department:
+          type: integer
+          nullable: true
+        course:
+          type: integer
+          nullable: true
+        uploaded_by:
+          type: integer
+        uploaded_at:
+          type: string
+          format: date
+          readOnly: true
+      required:
+      - description
+      - file
+      - id
+      - title
+      - uploaded_at
+      - uploaded_by
+    RoleEnum:
+      enum:
+      - staff
+      - student
+      type: string
+      description: |-
+        * `staff` - Staff
+        * `student` - Student
+    SendEmailReset:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    SetPassword:
+      type: object
+      properties:
+        new_password:
+          type: string
+        current_password:
+          type: string
+      required:
+      - current_password
+      - new_password
+    SetUsername:
+      type: object
+      properties:
+        current_password:
+          type: string
+        new_username:
+          type: string
+          title: Username
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+      required:
+      - current_password
+      - new_username
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    TokenVerify:
+      type: object
+      properties:
+        token:
+          type: string
+          writeOnly: true
+      required:
+      - token
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+      required:
+      - id
+      - username
+    UserCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+      required:
+      - id
+      - password
+      - username
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+        user_name:
+          type: string
+          maxLength: 255
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+      required:
+      - id
+      - role
+      - user_id
+      - user_name
+    UsernameResetConfirm:
+      type: object
+      properties:
+        new_username:
+          type: string
+          title: Username
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+      required:
+      - new_username
+  securitySchemes:
+    jwtAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "JWT"

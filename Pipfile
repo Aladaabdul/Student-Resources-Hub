@@ -10,6 +10,7 @@ drf-nested-routers = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
 django-filter = "*"
+drf-spectacular = "*"
 
 [dev-packages]
 

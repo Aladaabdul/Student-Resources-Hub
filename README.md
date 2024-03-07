@@ -29,7 +29,7 @@ Whether it's lecture notes, study materials, or event information, this platform
 1. Clone the repository:
 
     ```bash
-    git clone 
+    git clone https://github.com/Aladaabdul/Student-Resources-Hub.git
     ```
 
 2. Navigate to the project directory:
@@ -61,3 +61,18 @@ Whether it's lecture notes, study materials, or event information, this platform
     ```bash
     python manage.py runserver
     ```
+
+7. Open your browser and go to [http://localhost:8000](http://localhost:8000) to view the application.
+
+### Usage
+
+1. Navigate to the [http://localhost:8000/admin](http://localhost:8000/admin) page and log in with your superuser account.
+
+2. Use the Django admin interface to manage users, resources, and other aspects of the application.
+
+3. Explore the resource sharing platform by logging in with a regular user account.
+
+### API Documentation
+
+- **Swagger UI**: Explore the API endpoints using the Swagger UI.
+  - Access Swagger UI: [http://localhost:8000/hubs/schema/swagger-ui/](http://localhost:8000/hubs/schema/swagger-ui/)

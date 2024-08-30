@@ -8,16 +8,17 @@ from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from .pagination import DefaultPagination
+from .permissions import IsAdminOrReadOnly
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 
 # Create your views here.
 
-class UserProfileViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
+class UserProfileViewSet(ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
 
-    @action(detail=False, methods=["GET", "PUT"])
+    @action(detail=False, methods=["GET", "PUT"], permission_classes=[IsAuthenticated])
     def me(self, request):
         (user, created) = UserProfile.objects.get_or_create(user_id=request.user.id)
         if request.method == 'GET':
@@ -47,13 +48,10 @@ class ResourceViewSet(ModelViewSet):
     queryset = Resource.objects.all()
     serializer_class = ResourceSerializer
     pagination_class = DefaultPagination
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter]
     search_fields = ['title']
 
-    def get_permissions(self):
-        if self.request.method == "GET":
-            return [AllowAny()]
-        return [IsAuthenticated()]
 
 class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.all()

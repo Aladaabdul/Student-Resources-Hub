@@ -88,7 +88,7 @@ DATABASES = {
         'NAME': 'Resources',
         'HOST': 'localhost',
         'USER': 'root',
-        'PASSWORD': 'alada2020',
+        'PASSWORD': 'A20ala@s',
         'PORT': '3306',
     }
 }

@@ -2,7 +2,7 @@ from rest_framework import serializers
 from hubs.models import UserProfile, Department, Course, Resource, Comment
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    user_id = serializers.IntegerField()
+    user_id = serializers.IntegerField(read_only = True)
     
     class Meta:
         model = UserProfile

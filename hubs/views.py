@@ -2,14 +2,13 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from .models import UserProfile, Department, Course, Resource, Comment
 from .serializers import UserProfileSerializer, DepartmentSerializer, CourseSerializer, ResourceSerializer, CommentSerializer
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from .pagination import DefaultPagination
 from .permissions import IsAdminOrReadOnly
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 

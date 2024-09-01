@@ -13,6 +13,8 @@ django-filter = "*"
 drf-spectacular = "*"
 
 [dev-packages]
+pytest = "*"
+pytest-django = "*"
 
 [requires]
 python_version = "3.10"

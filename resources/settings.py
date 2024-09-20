@@ -14,6 +14,12 @@ from pathlib import Path
 import os
 from datetime import timedelta
 
+import environ
+
+env = environ.Env()
+
+environ.Env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -85,12 +91,13 @@ WSGI_APPLICATION = 'resources.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Resources',
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD': 'A20ala@s',
-        'PORT': '3306',
-    }
+        'NAME': env("DB_NAME"),
+        'HOST': env("DB_HOST"),
+        'USER': env("DB_USER"),
+        'PASSWORD': env("DB_PASSWORD"),
+        'PORT': env('DB_PORT'),
+}
+
 }
 
 

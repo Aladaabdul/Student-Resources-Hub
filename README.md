@@ -72,6 +72,30 @@ Whether it's lecture notes, study materials, or event information, this platform
 
 3. Explore the resource sharing platform by logging in with a regular user account.
 
+### Testing
+
+Running Tests
+
+1. Make sure you have installed all dependencies:
+   ```bash
+    pip install -r requirements.txt
+    ```
+2. Run the tests using the following command:
+   ```bash
+     pytest
+   ```
+
+Key test cases included in the project
+
+Create Resource as Anonymous User: Tests that anonymous users cannot create new resources and return a 401 status.
+
+Create Resource as Authorized User: Tests that authorized users can successfully create new resources and return a 201 status.
+
+Delete Resources as Authorized and Anonymous Users: Tests for different outcomes based on user authentication.
+
+Update Resources: Verifies that only authorized users can update existing resources.
+
+
 ### API Documentation
 
 - **Swagger UI**: Explore the API endpoints using the Swagger UI.
